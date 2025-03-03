@@ -1,4 +1,5 @@
 import operator
+from os import listdir
 
 from numpy import *
 
@@ -16,7 +17,7 @@ def classify0(x, dataset, labels, k):
     square_diff = diff_mat ** 2
     square_distances = square_diff.sum(axis=1)
     distances = square_distances ** 0.5
-    sorted_indices = square_distances.argsort()
+    sorted_indices = distances.argsort()
     class_counts = {}
     for i in range(k):
         vote_label = labels[sorted_indices[i]]
@@ -71,3 +72,40 @@ def classify_person():
     in_arr = array([ff_miles, percent_tats, ice_cream])
     classifier_result = classify0((in_arr - min_vals) / ranges, norm_mat, dating_labels, 3)
     print('You will probably like this person:', results[classifier_result - 1])
+
+def img_to_vector(filename):
+    return_vector = zeros((1, 1024))
+    fr = open(filename)
+    for i in range(32):
+        line_str = fr.readline()
+        for j in range(32):
+            return_vector[0, 32 * i + j] = int(line_str[j])
+    return return_vector
+
+def hand_writing_class_test():
+    # training dataset
+    hw_labels = []
+    training_file_list = listdir('trainingDigits')
+    training_list_length = len(training_file_list)
+    training_mat = zeros((training_list_length, 1024))
+    for i in range(training_list_length):
+        file_name = training_file_list[i]
+        file_name_first = file_name.split('.')[0]
+        class_num_str = int(file_name_first.split('_')[0])
+        hw_labels.append(class_num_str)
+        training_mat[i, :] = img_to_vector('trainingDigits/%s' % file_name)
+
+    # test dataset
+    test_file_list = listdir('testDigits')
+    error_count = 0
+    test_dataset_length = len(test_file_list)
+    for i in range(test_dataset_length):
+        file_name = test_file_list[i]
+        file_name_first = file_name.split('.')[0]
+        class_num_str = int(file_name_first.split('_')[0])
+        vector_under_test = img_to_vector('testDigits/%s' % file_name)
+        classifier_result = classify0(vector_under_test, training_mat, hw_labels, 3)
+        print('the result of the classify is: %d, the real one is: %d' % (classifier_result, class_num_str))
+        if classifier_result != class_num_str:
+            error_count += 1
+    print('the total error rate is: %f' % (error_count / float(test_dataset_length)))
