@@ -1,4 +1,4 @@
-from chapter2.kNN import handwriting_class_test
+from ch2.kNN import handwriting_class_test
 
 handwriting_class_test()
 

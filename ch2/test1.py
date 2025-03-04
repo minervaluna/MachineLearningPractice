@@ -1,7 +1,7 @@
 """
 通过mock数据集来演示knn算法
 """
-from chapter2 import kNN
+from ch2 import kNN
 
 group, labels = kNN.create_dataset()
 

@@ -3,7 +3,7 @@
 结论：通过点的颜色区分类别，但还是很难得出结论性信息
 """
 
-from chapter2.kNN import *
+from ch2.kNN import *
 import matplotlib.pyplot as plt
 
 dating_data_mat, dating_labels = file2matrix('datingTestSet2.txt')

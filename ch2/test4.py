@@ -1,7 +1,7 @@
 """
 归一化
 """
-from chapter2.kNN import *
+from ch2.kNN import *
 import matplotlib.pyplot as plt
 
 dating_data_mat, dating_labels = file2matrix('datingTestSet2.txt')
