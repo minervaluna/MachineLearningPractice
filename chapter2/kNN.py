@@ -82,7 +82,7 @@ def img_to_vector(filename):
             return_vector[0, 32 * i + j] = int(line_str[j])
     return return_vector
 
-def hand_writing_class_test():
+def handwriting_class_test():
     # training dataset
     hw_labels = []
     training_file_list = listdir('trainingDigits')
